@@ -372,7 +372,7 @@ class WebRequest(object):
         """
         return self.session
 
-def route(route, type="http", auth="user", methods=None, cors=None, **kw ):
+def route(route=None, **kw):
     """
     Decorator marking the decorated method as being a handler for
     requests. The method must be part of a subclass of ``Controller``.
@@ -401,13 +401,11 @@ def route(route, type="http", auth="user", methods=None, cors=None, **kw ):
     routing = kw.copy()
     assert not 'type' in routing or routing['type'] in ("http", "json")
     def decorator(f):
-		
         if route:
             if isinstance(route, list):
                 routes = route
             else:
                 routes = [route]
-            f.cors = cors
             routing['routes'] = routes
         @functools.wraps(f)
         def response_wrap(*args, **kw):
@@ -1411,12 +1409,6 @@ class Root(object):
         # - It could allow session fixation attacks.
         if not explicit_session and hasattr(response, 'set_cookie'):
             response.set_cookie('session_id', httprequest.session.sid, max_age=90 * 24 * 60 * 60)
-        
-        # Support for Cross-Origin Resource Sharing
-        if request.func.cors:
-            response.headers.set('Access-Control-Allow-Origin', request.func.cors)
-            if request.func.methods:
-                response.headers.set('Access-Control-Allow-Methods', ','.join(request.func.methods))
 
         return response
 
