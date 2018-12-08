@@ -372,7 +372,7 @@ class WebRequest(object):
         """
         return self.session
 
-def route(route=None, **kw, cors=None):
+def route(route, type="http", auth="user", methods=None, cors=None):
     """
     Decorator marking the decorated method as being a handler for
     requests. The method must be part of a subclass of ``Controller``.
@@ -401,6 +401,7 @@ def route(route=None, **kw, cors=None):
     routing = kw.copy()
     assert not 'type' in routing or routing['type'] in ("http", "json")
     def decorator(f):
+		f.cors = cors
         if route:
             if isinstance(route, list):
                 routes = route
