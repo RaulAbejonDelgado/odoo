@@ -372,7 +372,7 @@ class WebRequest(object):
         """
         return self.session
 
-def route(route, type="http", auth="user", methods=None, cors=None):
+def route(route, type="http", auth="user", methods=None, cors=None, **kw ):
     """
     Decorator marking the decorated method as being a handler for
     requests. The method must be part of a subclass of ``Controller``.
