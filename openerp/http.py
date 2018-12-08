@@ -403,11 +403,11 @@ def route(route, type="http", auth="user", methods=None, cors=None):
     def decorator(f):
 		
         if route:
-			f.cors = cors
             if isinstance(route, list):
                 routes = route
             else:
                 routes = [route]
+            f.cors = cors
             routing['routes'] = routes
         @functools.wraps(f)
         def response_wrap(*args, **kw):
