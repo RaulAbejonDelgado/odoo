@@ -401,8 +401,9 @@ def route(route, type="http", auth="user", methods=None, cors=None):
     routing = kw.copy()
     assert not 'type' in routing or routing['type'] in ("http", "json")
     def decorator(f):
-		f.cors = cors
+		
         if route:
+			f.cors = cors
             if isinstance(route, list):
                 routes = route
             else:
